@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
+import fs from 'fs';
 
 export class WikipediaLoginPage {
   readonly page: Page;
@@ -35,4 +36,24 @@ export class WikipediaLoginPage {
     await this.page.goto('https://en.wikipedia.org/w/index.php?title=Special:UserLogout&returnto=Main+Page');
     await expect(this.page).toHaveURL(/Special:UserLogout/);
   }
+
+  async saveLocalStorageToFile(page: Page) {
+    // Extract localStorage from the browser
+    const localStorage = await page.evaluate(() => {
+      const store: Record<string, string | null> = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key !== null) {
+          store[key] = localStorage.getItem(key);
+        }
+      }
+      return store;
+    });
+
+    // Format and log to file
+    const formatted = JSON.stringify(localStorage, null, 2);
+    const timestamp = new Date().toISOString();
+    fs.appendFileSync('storage_state.txt', `[${timestamp}]\n${formatted}\n\n`);
+  }
+
 }
