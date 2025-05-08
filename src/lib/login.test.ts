@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { WikipediaLoginPage } from './pages/wikipediaLoginPage';
 import dotenv from 'dotenv';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -25,6 +26,9 @@ test('Sign in to Wikipedia', async ({ page }) => {
     await loginPage.gotoLoginPage();
     await loginPage.login(wikipediaUsername, wikipediaPassword);
     await loginPage.assertLoginSuccess(wikipediaUsername);
+
+    // Capturing storage state
+    await loginPage.saveLocalStorageToFile(page);
 
     // Perform logout and assert
     await loginPage.logout();
