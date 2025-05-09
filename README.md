@@ -1,3 +1,5 @@
+Link to Loom Video: https://www.loom.com/share/4b763a152ddc4889aafa07eb9d4422e6?sid=4024c3e3-3041-41d0-bae9-6794ac475b9d
+
 # Technical Assessment for QA Engineer at Ranger
 
 ## Overview
